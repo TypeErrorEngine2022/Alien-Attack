@@ -1,0 +1,40 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "C\\C++: g++.exe build active file",
+			"command": "C:\\msys64\\mingw64\\bin\\g++.exe",
+			"args": [
+				"-fdiagnostics-color=always",
+				"-g",
+				"-Wall",
+				"-Iinclude",
+				"${workspaceFolder}\\src\\*.cpp",
+				"${workspaceFolder}\\src\\Entity\\*.cpp",
+				"${workspaceFolder}\\src\\Gamestate\\*.cpp",
+				"${workspaceFolder}\\src\\Levels\\*.cpp",
+				"${workspaceFolder}\\src\\Utils\\*.cpp",
+				"-o",
+				"main",
+				"-lmingw32",
+				"-lSDL2main",
+				"-lSDL2",
+				"-lSDL2_image",
+				"-lSDL2_mixer",
+				"-lz"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "compiler: C:\\msys64\\mingw64\\bin\\g++.exe"
+		}
+	]
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.5" orientation="orthogonal" renderorder="right-down" width="60" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="2">
+ <properties>
+  <property name="helicopter" value="C:\Users\jacky\Desktop\sdl_game\src\assets\helicopter.png"/>
+ </properties>
+ <tileset firstgid="1" name="blocks1" tilewidth="32" tileheight="32" spacing="2" margin="2" tilecount="198" columns="18">
+  <image source="blocks1.png" width="614" height="376"/>
+ </tileset>
+ <layer id="1" name="Tile Layer 1" width="60" height="15">
+  <properties>
+   <property name="Collidable" type="bool" value="true"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzVlskNwjAQRdMAhCNrF1TAXgFLFUhwZGmEC5VQGz9SIlnWt2diEsd86SkycYCXGTvJsrg5R/69rhPqe7Vg51NMiK/tyJxd96HrhPpq5zThPAQjMAYTMAWzwO9qw9esrVTnJl00Yb7SPWC9zBx96zulaHxZ/Vw93JRzW72g6XFWO9+alXxj97WZX55RKUXr8U/vIDdwBw/wtM7V9WU9Zo7NfmNrtjpK+9YSLMAKrMEGbMvPdsr/7PPQzuuDl4eecY20h/kyAHtwAEdwMsZ5OcdXR8lDO6/y/RCYr+so1bfwnYMLIXdcU8dDmxBfe6ytb+H7Jrh8NfVu09cVqb5f9nxOpw==
+  </data>
+ </layer>
+ <layer id="4" name="Tile Layer 2" width="60" height="15">
+  <properties>
+   <property name="Collidable" type="bool" value="false"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYKAeiAPieCBOIEJtIhAnUdFucgEpbh6O9o+CUTCaBkcBKWCwlN2jYBSMglEwCkbBKKAOAABeRQX7
+  </data>
+ </layer>
+ <objectgroup id="2" name="Object Layer 1">
+  <object id="1" name="Helicopter" type="Player" x="32" y="32" width="32" height="32">
+   <properties>
+    <property name="numFrames" type="int" value="4"/>
+    <property name="textureHeight" type="int" value="55"/>
+    <property name="textureID" value="helicopter"/>
+    <property name="textureWidth" type="int" value="128"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
