@@ -50,6 +50,11 @@ std::size_t Game::getGameHeight() const
     return m_gameHeight;
 }
 
+int Game::getScrollSpeed() const
+{
+    return m_scrollSpeed;
+}
+
 bool Game::init (const char* title, int xpos, int ypos,
             int height, int width, int flags)
 {
@@ -98,6 +103,9 @@ bool Game::init (const char* title, int xpos, int ypos,
         return false;
     }
 
+    m_scrollSpeed = 0.8;
+    m_playerLives = 3;
+
     m_pGameStateMachine = StateMachine<GameState>::Instance();
     m_pGameStateMachine -> changeState(MainMenuState::Instance());
 
@@ -127,10 +135,24 @@ int Game::getCurrentLevel() const
 void Game::setCurrentLevel(int currentLevel)
 {
     m_currentLevel = currentLevel;
-    m_pGameStateMachine -> changeState(new BetweenLevelState());
+    //m_pGameStateMachine -> changeState(new BetweenLevelState());
     m_bLevelComplete = false;
 }
 
+bool Game::getLevelComplete() const
+{
+    return m_bLevelComplete;
+}
+
+int Game::getPlayerLives() const
+{
+    return m_playerLives;
+}
+
+void Game::setPlayerLives(int lives)
+{
+    m_playerLives = lives;
+}
 
 void Game::render()
 {

@@ -25,8 +25,14 @@ public:
     std::size_t getGameHeight() const;
     std::size_t getGameWidth() const;
 
+    int getScrollSpeed() const;
+
     int getCurrentLevel() const;
     void setCurrentLevel(int currentLevel);
+    bool getLevelComplete() const;
+
+    int getPlayerLives() const;
+    void setPlayerLives(int lives);
     
 private:
     Game(){}
@@ -41,6 +47,10 @@ private:
     
     int m_currentFrame;
     bool m_bRunning;
+
+    int m_scrollSpeed;
+
+    int m_playerLives;
 
     int m_currentLevel;
     bool m_bLevelComplete;

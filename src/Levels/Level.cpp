@@ -5,9 +5,14 @@ std::vector<TileSet>& Level::getTilesets()
     return m_tilesets;
 }
 
-std::vector<std::unique_ptr<Layer>>& Level::getLayers()
+std::vector<std::shared_ptr<Layer>>& Level::getLayers()
 {
     return m_layers;
+}
+
+std::vector<std::shared_ptr<TileLayer>>& Level::getCollidableLayers()
+{
+    return m_collisionLayers;
 }
 
 void Level::render()

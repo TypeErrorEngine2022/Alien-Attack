@@ -1,11 +1,15 @@
 #include "../../include/headers/Map/LevelParser.h"
+#include "../../include/headers/Map/TileSet.h"
 #include "../../include/headers/Map/TileLayer.h"
 #include "../../include/headers/Map/ObjectLayer.h"
+
 #include "../../include/headers/UtilsHeader/TextureManager.h"
 #include "../../include/headers/UtilsHeader/LoaderParams.h"
 #include "../../include/headers/UtilsHeader/GameObjectFactory.h"
-#include "../../include/headers/EntityHeader/GameObject.h"
 #include "../../include/headers/UtilsHeader/base64.h"
+
+#include "../../include/headers/EntityHeader/GameObject.h"
+
 #include "../../include/headers/Game.h"
 
 #include <filesystem>
@@ -55,12 +59,12 @@ std::unique_ptr<Level> LevelParser::parseLevel(const char *levelFile)
         }
     }
 
-    return pLevel;
+    return std::move(pLevel);
 }
 
 void LevelParser::parseTilesets(tinyxml2::XMLElement *pTilesetRoot)
 {
-    std::vector<TileSet>& pTilesets = pLevel->getTilesets();
+    std::vector<TileSet> &pTilesets = pLevel->getTilesets();
 
     // Assume source and map.tmx are in the same folder
     // convert the relative path of source to absolute path
@@ -97,10 +101,10 @@ void LevelParser::parseTileLayer(tinyxml2::XMLElement *pTileElement)
     using tinyxml2::XMLNode;
     using tinyxml2::XMLText;
 
-    std::vector<std::unique_ptr<Layer>>& pLayers = pLevel->getLayers();
-    const std::vector<TileSet>& pTilesets = pLevel->getTilesets();
+    std::vector<std::shared_ptr<Layer>> &pLayers = pLevel->getLayers();
+    const std::vector<TileSet> &pTilesets = pLevel->getTilesets();
 
-    std::unique_ptr<TileLayer> pTileLayer = std::make_unique<TileLayer>(m_tileSize, pTilesets);
+    std::shared_ptr<TileLayer> pTileLayer = std::make_shared<TileLayer>(m_tileSize, pTilesets);
 
     // tile data
     std::vector<std::vector<int>> data;
@@ -110,18 +114,18 @@ void LevelParser::parseTileLayer(tinyxml2::XMLElement *pTileElement)
 
     bool collidable = false;
 
-    for (XMLElement* e = pTileElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
+    for (XMLElement *e = pTileElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
     {
         if (e->Value() == static_cast<std::string>("properties"))
         {
-            for (XMLElement* property = properties->FirstChildElement(); property != nullptr;
-                     property = property->NextSiblingElement())
+            for (XMLElement *property = e->FirstChildElement(); property != nullptr;
+                 property = property->NextSiblingElement())
             {
                 if (property->Value() == static_cast<std::string>("property"))
                 {
                     if (property->Attribute("name") == static_cast<std::string>("Collidable"))
                     {
-                        collidable = property->BoolAttribute("");
+                        collidable = property->BoolAttribute("value");
                     }
                 }
             }
@@ -129,7 +133,6 @@ void LevelParser::parseTileLayer(tinyxml2::XMLElement *pTileElement)
         else if (e->Value() == static_cast<std::string>("data"))
         {
             pDataNode = e;
-            break;
         }
     }
 
@@ -140,7 +143,7 @@ void LevelParser::parseTileLayer(tinyxml2::XMLElement *pTileElement)
     // uncompress zlib compression
     std::vector<int> gids(m_width * m_height);
     uLongf sizeOfGids = gids.size() * sizeof(int);
-    // ZEXTERN int ZEXPORT uncompress OF((Bytef *dest,   uLongf *destLen,
+    // ZEXTERN int ZEXPORT uncompress OF((Bytef *dest, uLongf *destLen,
     //                                      const Bytef *source, uLong sourceLen));
     int state = uncompress(reinterpret_cast<Bytef *>(&gids[0]), &sizeOfGids, reinterpret_cast<const Bytef *>(decodeIDs.c_str()),
                            decodeIDs.size());
@@ -150,7 +153,7 @@ void LevelParser::parseTileLayer(tinyxml2::XMLElement *pTileElement)
     }
     std::cout << "Uncompressed the data\n";
 
-    // each row has m_height cols
+    // each row has m_width cols
     std::vector<int> layerRow(m_width);
 
     for (std::size_t j = 0; j < m_height; j++)
@@ -168,7 +171,12 @@ void LevelParser::parseTileLayer(tinyxml2::XMLElement *pTileElement)
 
     pTileLayer->SetTileIDs(data);
 
-    pLayers.push_back(std::move(pTileLayer));
+    if (collidable)
+    {
+        pLevel->getCollidableLayers().push_back(pTileLayer);
+    }
+
+    pLayers.push_back(pTileLayer);
 
     std::cout << "complete parsing tileLayer\n";
 }
@@ -194,11 +202,11 @@ void LevelParser::parseObjectLayer(tinyxml2::XMLElement *pObjectElement)
 {
     using tinyxml2::XMLElement;
 
-    std::vector<std::unique_ptr<Layer>>& pLayers = pLevel->getLayers();
+    std::vector<std::shared_ptr<Layer>> &pLayers = pLevel->getLayers();
 
-    std::unique_ptr<ObjectLayer> pObjectLayer = std::make_unique<ObjectLayer>();
+    std::shared_ptr<ObjectLayer> pObjectLayer = std::make_shared<ObjectLayer>();
 
-    for (XMLElement *e = pObjectElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
+    for (XMLElement* e = pObjectElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
     {
         if (e->Value() == static_cast<std::string>("object"))
         {
@@ -211,12 +219,14 @@ void LevelParser::parseObjectLayer(tinyxml2::XMLElement *pObjectElement)
             x = e->IntAttribute("x");
             y = e->IntAttribute("y");
 
+            std::string type = e->Attribute("type");
+
             std::shared_ptr<GameObject> pGameObject =
-                std::move(TheGameObjectFactory::Instance()->create(e->Attribute("type")));
+                std::move(TheGameObjectFactory::Instance()->create(type));
 
             if (e->FirstChildElement()->Value() == static_cast<std::string>("properties"))
             {
-                XMLElement *properties = e->FirstChildElement();
+                XMLElement* properties = e->FirstChildElement();
                 for (XMLElement *property = properties->FirstChildElement(); property != nullptr;
                      property = property->NextSiblingElement())
                 {
@@ -243,14 +253,15 @@ void LevelParser::parseObjectLayer(tinyxml2::XMLElement *pObjectElement)
                 }
             }
             pGameObject->load(std::make_shared<LoaderParams>(x, y, width, height, textureID, numFrames, callbackID, animSpeed));
+
             if (type == "Player")
             {
-                pLevel->setPlayer(std::dynamic_pointer_cast<Player>(pSharedGameObject));
+                pLevel->setPlayer(std::dynamic_pointer_cast<Player>(pGameObject));
             }
             pObjectLayer->getGameObject().push_back(pGameObject);
         }
     }
 
-    pLayers.push_back(std::move(pObjectLayer));
+    pLayers.push_back(pObjectLayer);
     std::cout << "complete parsing object layer\n";
 }

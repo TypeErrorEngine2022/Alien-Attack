@@ -19,7 +19,7 @@ public:
 
     void update() override;
 
-    void collsion() override;
+    void collision() override;
 
     std::string type() override;
 

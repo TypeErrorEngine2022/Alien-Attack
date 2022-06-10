@@ -12,9 +12,6 @@ public:
     //base class need virtual destructor
     virtual ~GameObject(){}
 
-    GameObject(const GameObject&) = delete;
-    GameObject(GameObject&&) = delete;
-
     virtual void load(const std::shared_ptr<LoaderParams> pParams) = 0;
 
     virtual void draw() = 0;
@@ -30,6 +27,7 @@ public:
     Vector2D getPosition() const;
     int getWidth() const;
     int getHeight() const;
+    int getCallbackID() const;
 
     //scroll along with tilemap
     void scroll(double scrollSpeed);
@@ -53,6 +51,8 @@ protected:
     int m_currentRow;
     int m_currentFrame;
     int m_numFrames;
+    int m_callbackID;
+    int m_animSpeed;
     std::string m_textureID;
 
     //common boolean varaibles

@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.5" orientation="orthogonal" renderorder="right-down" width="60" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="2">
+<map version="1.8" tiledversion="1.8.5" orientation="orthogonal" renderorder="right-down" width="60" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="19">
  <properties>
-  <property name="helicopter" value="C:\Users\jacky\Desktop\sdl_game\src\assets\helicopter.png"/>
+  <property name="biubiubiu" value="src/assets/BiuBiuBiu.png"/>
+  <property name="boss" value="src/assets/boss1.png"/>
+  <property name="glider" value="src/assets/glider.png"/>
+  <property name="helicopter" value="src/assets/helicopter.png"/>
+  <property name="shotGlider" value="src/assets/shotGlider.png"/>
+  <property name="turret" value="src/assets/turret.png"/>
  </properties>
  <tileset firstgid="1" name="blocks1" tilewidth="32" tileheight="32" spacing="2" margin="2" tilecount="198" columns="18">
   <image source="blocks1.png" width="614" height="376"/>
@@ -11,7 +16,7 @@
    <property name="Collidable" type="bool" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzVlskNwjAQRdMAhCNrF1TAXgFLFUhwZGmEC5VQGz9SIlnWt2diEsd86SkycYCXGTvJsrg5R/69rhPqe7Vg51NMiK/tyJxd96HrhPpq5zThPAQjMAYTMAWzwO9qw9esrVTnJl00Yb7SPWC9zBx96zulaHxZ/Vw93JRzW72g6XFWO9+alXxj97WZX55RKUXr8U/vIDdwBw/wtM7V9WU9Zo7NfmNrtjpK+9YSLMAKrMEGbMvPdsr/7PPQzuuDl4eecY20h/kyAHtwAEdwMsZ5OcdXR8lDO6/y/RCYr+so1bfwnYMLIXdcU8dDmxBfe6ytb+H7Jrh8NfVu09cVqb5f9nxOpw==
+   eJxjYKAvyKezfQMNRv07vMFQ8K8EEEsCsRQQSwOxDBDLkmnWUPAvNQE2/46GweAA1EzXyGAg/EsrvxADBmv8kgqI9cdQ8m81ENcAcS0Q16HJkepfbGkMmU+t9OYMxE5A7ALErkDsBsTuUDEPCswl1b98QDwbD+alwC3IQACIw4A4HIgjgDgSic8PVYMvHnEBcv27Dwumtn9NgLgIC+bHo48QIDVf0tu/C7BgXP4lJr4Ho38BMgwvCQ==
   </data>
  </layer>
  <layer id="4" name="Tile Layer 2" width="60" height="15">
@@ -23,12 +28,100 @@
   </data>
  </layer>
  <objectgroup id="2" name="Object Layer 1">
-  <object id="1" name="Helicopter" type="Player" x="32" y="32" width="32" height="32">
+  <object id="1" name="Helicopter" type="Player" x="25.3333" y="312" width="32" height="32">
    <properties>
-    <property name="numFrames" type="int" value="4"/>
+    <property name="numFrames" type="int" value="5"/>
     <property name="textureHeight" type="int" value="55"/>
     <property name="textureID" value="helicopter"/>
     <property name="textureWidth" type="int" value="128"/>
+   </properties>
+  </object>
+  <object id="6" name="Glider2" type="Enemy" x="228.667" y="120" width="32" height="32">
+   <properties>
+    <property name="numFrames" type="int" value="1"/>
+    <property name="textureHeight" type="int" value="34"/>
+    <property name="textureID" value="glider"/>
+    <property name="textureWidth" type="int" value="38"/>
+   </properties>
+  </object>
+  <object id="8" name="Glider1" type="Enemy" x="374" y="31.3333" width="32" height="32">
+   <properties>
+    <property name="numFrames" type="int" value="1"/>
+    <property name="textureHeight" type="int" value="34"/>
+    <property name="textureID" value="glider"/>
+    <property name="textureWidth" type="int" value="38"/>
+   </properties>
+  </object>
+  <object id="9" name="ShotGlider3" type="Enemy" x="422" y="290" width="32" height="32">
+   <properties>
+    <property name="numFrames" type="int" value="1"/>
+    <property name="textureHeight" type="int" value="36"/>
+    <property name="textureID" value="shotGlider"/>
+    <property name="textureWidth" type="int" value="38"/>
+   </properties>
+  </object>
+  <object id="10" name="ShotGlider2" type="Enemy" x="503.333" y="90.6667" width="32" height="32">
+   <properties>
+    <property name="numFrames" type="int" value="1"/>
+    <property name="textureHeight" type="int" value="36"/>
+    <property name="textureID" value="shotGlider"/>
+    <property name="textureWidth" type="int" value="38"/>
+   </properties>
+  </object>
+  <object id="12" name="ShotGlider1" type="Enemy" x="657.333" y="190" width="32" height="32">
+   <properties>
+    <property name="numFrames" type="int" value="1"/>
+    <property name="textureHeight" type="int" value="36"/>
+    <property name="textureID" value="shotGlider"/>
+    <property name="textureWidth" type="int" value="38"/>
+   </properties>
+  </object>
+  <object id="13" name="BiuBiuBiu2" type="Enemy" x="712" y="16.6667" width="32" height="32">
+   <properties>
+    <property name="numFrames" type="int" value="3"/>
+    <property name="textureHeight" type="int" value="35"/>
+    <property name="textureID" value="biubiubiu"/>
+    <property name="textureWidth" type="int" value="35"/>
+   </properties>
+  </object>
+  <object id="15" name="BiuBiuBiu3" type="Enemy" x="1071.33" y="10" width="32" height="32">
+   <properties>
+    <property name="numFrames" type="int" value="3"/>
+    <property name="textureHeight" type="int" value="35"/>
+    <property name="textureID" value="biubiubiu"/>
+    <property name="textureWidth" type="int" value="35"/>
+   </properties>
+  </object>
+  <object id="14" name="BiuBiuBiu1" type="Enemy" x="98.6667" y="19.3333" width="32" height="32">
+   <properties>
+    <property name="numFrames" type="int" value="3"/>
+    <property name="textureHeight" type="int" value="35"/>
+    <property name="textureID" value="biubiubiu"/>
+    <property name="textureWidth" type="int" value="35"/>
+   </properties>
+  </object>
+  <object id="16" name="Turret1" type="Enemy" x="671.333" y="420" width="32" height="32">
+   <properties>
+    <property name="numFrames" type="int" value="1"/>
+    <property name="textureHeight" type="int" value="56"/>
+    <property name="textureID" value="turret"/>
+    <property name="textureWidth" type="int" value="52"/>
+   </properties>
+  </object>
+  <object id="17" name="Turret2" type="Enemy" x="960" y="440" width="32" height="32">
+   <properties>
+    <property name="numFrames" type="int" value="1"/>
+    <property name="textureHeight" type="int" value="56"/>
+    <property name="textureID" value="turret"/>
+    <property name="textureWidth" type="int" value="52"/>
+   </properties>
+  </object>
+  <object id="18" name="Boss" type="Enemy" x="1671.33" y="171.333" width="32" height="32">
+   <properties>
+    <property name="numFrames" type="int" value="1"/>
+    <property name="textureHeight" type="int" value="183"/>
+    <property name="textureID" value="boss"/>
+    <property name="textureWidth" type="int" value="230"/>
    </properties>
   </object>
  </objectgroup>

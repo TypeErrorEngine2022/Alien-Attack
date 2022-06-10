@@ -55,6 +55,11 @@ bool TextureManager::load(std::string fileName, std::string id,
     return false;
 }
 
+std::map<std::string, SDL_Texture*>& TextureManager::getTextureMap()
+{
+    return m_textureMap;
+}
+
 //draw the whole image
 void TextureManager::draw(std::string id, int x, int y, int width, int height,
           SDL_Renderer* pRenderer, SDL_RendererFlip flip)
@@ -70,13 +75,13 @@ void TextureManager::draw(std::string id, int x, int y, int width, int height,
     destRect.y = y;
 
     SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect,
-                     &destRect, NULL, NULL, flip);
+                     &destRect, 0, nullptr, flip);
 }
 
 //draw the current frame
 void TextureManager::drawFrame(std::string id, int x, int y, int width, int height,
                                 int currentRow, int currentFrame, SDL_Renderer* pRenderer, double angle,
-                                int alpha,SDL_RendererFlip flip)
+                                int alpha, SDL_RendererFlip flip)
 {
     SDL_Rect srcRect;
     SDL_Rect destRect;
@@ -89,7 +94,7 @@ void TextureManager::drawFrame(std::string id, int x, int y, int width, int heig
 
     SDL_SetTextureAlphaMod(m_textureMap[id], alpha);
     SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect,
-                     &destRect, angle, NULL, flip);
+                     &destRect, angle, nullptr, flip);
 }
 
 void TextureManager::drawTile(std::string id, std::size_t margin, std::size_t spacing,
@@ -106,7 +111,7 @@ void TextureManager::drawTile(std::string id, std::size_t margin, std::size_t sp
     destRect.y = y;
 
     SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect,
-                     &destRect, NULL, NULL, SDL_FLIP_NONE);
+                     &destRect, 0, nullptr, SDL_FLIP_NONE);
 }
 
 void TextureManager::clearFromTextureMap(std::string ID)

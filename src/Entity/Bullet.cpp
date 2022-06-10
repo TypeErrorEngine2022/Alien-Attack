@@ -29,7 +29,7 @@ void PlayerBullet::update()
     ShooterObject::update();
 }
 
-void PlayerBullet::collsion()
+void PlayerBullet::collision()
 {
     m_bDead = true;
 }

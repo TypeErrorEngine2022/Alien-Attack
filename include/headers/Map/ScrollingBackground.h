@@ -1,6 +1,9 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include <memory>
+
+#include "../EntityHeader/GameObject.h"
+
 #include "../UtilsHeader/LoaderParams.h"
 
 class ScrollingBackground: public GameObject
@@ -25,4 +28,6 @@ private:
     int m_srcRect1Width, m_destRect1Width, m_srcRect2Width, m_destRect2Width;
 
     int count, maxcount;
+
+    int m_scrollSpeed;
 };

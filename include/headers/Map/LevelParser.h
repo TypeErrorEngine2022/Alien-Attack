@@ -8,10 +8,9 @@ class LevelParser
 {
 public:
     std::unique_ptr<Level> parseLevel(const char* levelFile);
-
-private:
     LevelParser();
 
+private:
     void parseTilesets(tinyxml2::XMLElement* pTilesetRoot);
     
     void parseTileLayer(tinyxml2::XMLElement* pTilesetRoot);

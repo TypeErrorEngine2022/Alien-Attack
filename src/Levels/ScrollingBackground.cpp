@@ -1,5 +1,10 @@
 #include "../../include/headers/Map/ScrollingBackground.h"
 
+#include "../../include/headers/UtilsHeader/TextureManager.h"
+#include "../../include/headers/UtilsHeader/Vector2D.h"
+
+#include "../../include/headers/Game.h"
+
 ScrollingBackground::ScrollingBackground():
     GameObject()
 {
@@ -20,7 +25,6 @@ void ScrollingBackground::load(const std::shared_ptr<LoaderParams> pParams)
     m_numFrames = pParams -> getNumFrames();
     m_callbackID = pParams -> getCallbackID();
     m_animSpeed = pParams -> getAnimSpeed();
-    m_scrollSpeed = pParams -> getAnimSpeed();
 
     m_scrollSpeed = 1;
 
@@ -31,7 +35,7 @@ void ScrollingBackground::load(const std::shared_ptr<LoaderParams> pParams)
     m_srcRect1.w = m_destRect1.w = m_srcRect1Width = m_destRect1Width = m_width;
     m_srcRect1.h = m_destRect1.h = m_height;
 
-    m_srcRect2.x = m_srcRect2.x = 0;
+    m_srcRect2.x = m_srcRect2.y = 0;
     m_destRect2.x = m_position.getX() + m_width;
     m_destRect2.y = m_position.getY();
 
@@ -43,11 +47,11 @@ void ScrollingBackground::draw()
 {
     //draw first rect
     SDL_RenderCopyEx(TheGame::Instance() -> getRenderer(), TheTextureManager::Instance() -> getTextureMap()[m_textureID],
-                        &m_srcRect1, &m_destRect1, NULL, NULL, SDL_FLIP_NONE);
+                        &m_srcRect1, &m_destRect1, 0, nullptr, SDL_FLIP_NONE);
     
     //draw second rect
     SDL_RenderCopyEx(TheGame::Instance() -> getRenderer(), TheTextureManager::Instance() -> getTextureMap()[m_textureID],
-                        &m_srcRect2, &m_destRect2, NULL, NULL, SDL_FLIP_NONE);
+                        &m_srcRect2, &m_destRect2, 0, nullptr, SDL_FLIP_NONE);
 }
 
 void ScrollingBackground::update()
@@ -61,7 +65,7 @@ void ScrollingBackground::update()
 
         //make the secon rectangle larger
         m_srcRect2.w += m_scrollSpeed;
-        m_destRect2.w += m_srcollSpeed;
+        m_destRect2.w += m_scrollSpeed;
         m_destRect2.x -= m_scrollSpeed;
 
         //reset and start again
@@ -74,7 +78,7 @@ void ScrollingBackground::update()
             m_srcRect1.w = m_destRect1.w = m_srcRect1Width = m_destRect1Width = m_width;
             m_srcRect1.h = m_destRect1.h = m_height;
 
-            m_srcRect2.x = m_srcRect2.x = 0;
+            m_srcRect2.x = m_srcRect2.y = 0;
             m_destRect2.x = m_position.getX() + m_width;
             m_destRect2.y = m_position.getY();
 

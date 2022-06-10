@@ -6,6 +6,13 @@
 #include "../UtilsHeader/Vector2D.h"
 #include "../EntityHeader/Bullet.h"
 
+enum bullet_type
+{
+    smallBullet = 0,
+    mediumBullet = 1,
+    largeBullet = 2
+};
+
 class BulletHandler
 {
 public:
@@ -23,9 +30,8 @@ public:
     void update();
 
 private:
-    BulletHandler(){}
-    ~BulletHandler(){}
-
+    BulletHandler();
+    
     static std::shared_ptr<BulletHandler> s_pInstance;
 
     std::forward_list<PlayerBullet> m_playerBullets;

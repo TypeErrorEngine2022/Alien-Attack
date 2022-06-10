@@ -17,7 +17,7 @@ public:
 
     void load(const std::shared_ptr<LoaderParams> pParams) override;
 
-    void collsion() override;
+    void collision() override;
     std::string type() override;
 
     //Is the object "state"?
