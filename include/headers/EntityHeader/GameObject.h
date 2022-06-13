@@ -29,11 +29,14 @@ public:
     int getHeight() const;
     int getCallbackID() const;
 
-    //scroll along with tilemap
     void scroll(double scrollSpeed);
 
     bool updating();
     void setUpdating(bool updating);
+
+    //Is the object "state"?
+    bool dead();
+    bool dying();
 
 protected:
     GameObject();
@@ -57,6 +60,8 @@ protected:
 
     //common boolean varaibles
     bool m_bUpdating;
+    bool m_bDead;
+    bool m_bDying;
 
     //rotation
     double m_angle;

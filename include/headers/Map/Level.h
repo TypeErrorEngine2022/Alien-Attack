@@ -1,8 +1,6 @@
 #pragma once
 
 #include "TileSet.h"
-#include "Layer.h"
-#include "TileLayer.h"
 
 #include "../EntityHeader/Player.h"
 
@@ -10,14 +8,18 @@
 #include <vector>
 #include <memory>
 
+class Layer;
+class TileLayer;
 
-class Level
+
+class Level: public std::enable_shared_from_this<Level>
 {
 public:
     ~Level(){};
 
     void update();
     void render();
+    void clean();
 
     std::shared_ptr<Player> getPlayer();
     void setPlayer(std::shared_ptr<Player> player);
@@ -30,10 +32,11 @@ private:
 
     std::vector<TileSet>& getTilesets();
     std::vector<std::shared_ptr<Layer>>& getLayers();
-
     std::vector<std::shared_ptr<TileLayer>>& getCollidableLayers();
 
     std::shared_ptr<Player> m_player;
+    std::vector<std::string> m_textureIDList;
+    std::vector<std::string>& getTextureIDList();
 
     friend class LevelParser;
 };

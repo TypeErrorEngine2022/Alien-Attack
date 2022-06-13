@@ -96,15 +96,9 @@ bool Game::init (const char* title, int xpos, int ypos,
     std::cout << "SDL init success\n";
     m_bRunning = true;
 
-    if (!TheTextureManager::Instance() -> load("C:/Users/jacky/Desktop/sdl_game/src/assets/animate-alpha.png",
-                                                "animate", m_pRenderer))
-    {
-        std::cout << "Fails to load image\n";
-        return false;
-    }
-
-    m_scrollSpeed = 0.8;
+    m_scrollSpeed = 2;
     m_playerLives = 3;
+    m_bLevelComplete = false;
 
     m_pGameStateMachine = StateMachine<GameState>::Instance();
     m_pGameStateMachine -> changeState(MainMenuState::Instance());

@@ -1,4 +1,8 @@
 #include "../../include/headers/Map/Level.h"
+#include "../../include/headers/Map/TileLayer.h"
+#include "../../include/headers/Map/Layer.h"
+
+#include "../../include/headers/UtilsHeader/TextureManager.h"
 
 std::vector<TileSet>& Level::getTilesets()
 {
@@ -15,6 +19,11 @@ std::vector<std::shared_ptr<TileLayer>>& Level::getCollidableLayers()
     return m_collisionLayers;
 }
 
+std::vector<std::string>& Level::getTextureIDList()
+{
+    return m_textureIDList;
+}
+
 void Level::render()
 {
     for (std::size_t i = 0; i < m_layers.size(); i++)
@@ -27,7 +36,21 @@ void Level::update()
 {
     for (std::size_t i = 0; i < m_layers.size(); i++)
     {
-        m_layers[i] -> update();
+        std::shared_ptr<Level> pLevel = shared_from_this();
+        m_layers[i] -> update(pLevel);
+    }
+}
+
+void Level::clean()
+{
+    for (std::size_t i = 0; i < m_layers.size(); i++)
+    {
+        m_layers[i] -> clean();
+    }
+
+    for (std::size_t i = 0; i < m_textureIDList.size(); i++)
+    {
+        TheTextureManager::Instance() -> clearFromTextureMap(m_textureIDList[i]);
     }
 }
 

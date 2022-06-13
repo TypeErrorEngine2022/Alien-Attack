@@ -7,7 +7,7 @@
 class LevelParser
 {
 public:
-    std::unique_ptr<Level> parseLevel(const char* levelFile);
+    std::shared_ptr<Level> parseLevel(const char* levelFile);
     LevelParser();
 
 private:
@@ -23,5 +23,5 @@ private:
     std::size_t m_width;
     std::size_t m_height;
 
-    std::unique_ptr<Level> pLevel;
+    std::shared_ptr<Level> pLevel;
 };

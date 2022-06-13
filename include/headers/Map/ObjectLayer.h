@@ -8,8 +8,9 @@ class ObjectLayer: public Layer
 {
 public:
     ObjectLayer();
-    void update() override;
+    void update(std::shared_ptr<Level> pLevel) override;
     void render() override;
+    void clean() override;
 
     std::vector<std::shared_ptr<GameObject>>& getGameObject();
 

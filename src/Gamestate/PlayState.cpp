@@ -4,6 +4,8 @@
 #include "../../include/headers/UtilsHeader/TextureManager.h"
 #include "../../include/headers/UtilsHeader/InputHandler.h"
 #include "../../include/headers/UtilsHeader/StateParser.h"
+#include "../../include/headers/UtilsHeader/CollisionManager.h"
+
 #include "../../include/headers/Map/LevelParser.h"
 
 #include "../../include/headers/GamestateHeader/PauseState.h"
@@ -36,10 +38,6 @@ void PlayState::update()
 
 void PlayState::render()
 {
-    for (std::size_t i = 0; i < m_gameObjects.size(); i++)
-    {
-        m_gameObjects[i] -> draw();
-    }
     pLevel -> render();
 }
 
@@ -50,6 +48,14 @@ bool PlayState::onEnter()
     LevelParser levelParser;
     pLevel = levelParser.parseLevel("C:/Users/jacky/Desktop/sdl_game/src/assets/Map/map1.tmx");
 
+    return true;
+}
+
+bool PlayState::onExit()
+{
+    pLevel->clean();
+    TheInputHandler::Instance() -> reset();
+    std::cout << "exiting " << s_stateID << '\n';
     return true;
 }
 

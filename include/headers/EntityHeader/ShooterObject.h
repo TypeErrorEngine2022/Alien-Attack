@@ -20,16 +20,9 @@ public:
     void collision() override;
     std::string type() override;
 
-    //Is the object "state"?
-    bool dead();
-    bool dying();
-
 protected:
     ShooterObject();
-
-    bool m_bDead;
-    bool m_bDying;
-
+    
     void doDyingAnimation();
 
     //how fast will this object fire bullets? with a counter
@@ -37,6 +30,8 @@ protected:
     int m_bulletCounter;
 
     int m_moveSpeed;
+    double m_angle;
+    int m_alpha;
 
     //how long will the death animation takes? with a counter
     int m_dyingTime;

@@ -14,9 +14,8 @@ public:
     void render() override;
 
     bool onEnter() override;
+    bool onExit() override;
     std::string getStateID() const override;
 
-    std::unique_ptr<Level> pLevel;
-
-    
+    std::shared_ptr<Level> pLevel;
 };

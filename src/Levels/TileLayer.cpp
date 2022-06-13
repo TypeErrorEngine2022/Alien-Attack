@@ -1,8 +1,11 @@
 #include "../../include/headers/Map/TileLayer.h"
+#include "../../include/headers/Map/Level.h"
+
 #include "../../include/headers/UtilsHeader/TextureManager.h"
 #include "../../include/headers/Game.h"
 
 #include <iostream>
+#include <memory>
 
 TileLayer::TileLayer(std::size_t tileSize, const std::vector<TileSet>& tilesets):
     m_tileSize(tileSize), m_position(0.0, 0.0), m_velocity(0.0, 0.0), m_tilesets(tilesets)
@@ -12,7 +15,7 @@ TileLayer::TileLayer(std::size_t tileSize, const std::vector<TileSet>& tilesets)
     m_numColumns = TheGame::Instance() -> getGameHeight() / m_tileSize;
 }
 
-void TileLayer::update()
+void TileLayer::update(std::shared_ptr<Level> pLevel)
 {
     m_position += m_velocity;
     m_velocity.setX(1);
@@ -63,6 +66,11 @@ void TileLayer::render()
                                                         TheGame::Instance() -> getRenderer());
         }
     }
+}
+
+void TileLayer::clean()
+{
+    
 }
 
 void TileLayer::SetTileIDs(const std::vector<std::vector<int>>& data)

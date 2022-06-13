@@ -1,7 +1,10 @@
 #pragma once
 #include "Layer.h"
 #include "TileSet.h"
+
 #include <vector>
+#include <memory>
+
 #include "../UtilsHeader/Vector2D.h"
 
 class TileLayer: public Layer
@@ -9,8 +12,9 @@ class TileLayer: public Layer
 public:
     TileLayer(std::size_t tileSize, const std::vector<TileSet>& tilesets);
     
-    void update() override;
+    void update(std::shared_ptr<Level> pLevel) override;
     void render() override;
+    void clean() override;
 
     void SetTileIDs(const std::vector<std::vector<int>>& data);
 

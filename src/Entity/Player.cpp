@@ -11,9 +11,10 @@
 #include <memory>
 #include <SDL2/SDL.h>
 
-Player::Player() : ShooterObject() 
+Player::Player() : ShooterObject(),
+    m_invulnerable(false), m_invulnerableTime(1000), m_invulnerableCounter(0)
 {
-
+    
 }
 
 void Player::load(const std::shared_ptr<LoaderParams> pParams)
@@ -96,10 +97,10 @@ void Player::resurrect()
 
     m_textureID = "player";
 
-    m_currentFrame = 0;
+    m_currentFrame = 1;
     m_numFrames = 5;
-    m_width = 101;
-    m_height = 46;
+    m_width = 128;
+    m_height = 55;
 
     m_dyingCounter = 0;
     m_invulnerable = true;

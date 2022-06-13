@@ -22,7 +22,7 @@ LevelParser::LevelParser() : m_tileSize(0), m_width(0), m_height(0)
 {
 }
 
-std::unique_ptr<Level> LevelParser::parseLevel(const char *levelFile)
+std::shared_ptr<Level> LevelParser::parseLevel(const char *levelFile)
 {
     using tinyxml2::XMLDocument;
     using tinyxml2::XMLElement;
@@ -59,17 +59,17 @@ std::unique_ptr<Level> LevelParser::parseLevel(const char *levelFile)
         }
     }
 
-    return std::move(pLevel);
+    return pLevel;
 }
 
 void LevelParser::parseTilesets(tinyxml2::XMLElement *pTilesetRoot)
 {
-    std::vector<TileSet> &pTilesets = pLevel->getTilesets();
+    std::vector<TileSet>& pTilesets = pLevel->getTilesets();
 
     // Assume source and map.tmx are in the same folder
     // convert the relative path of source to absolute path
-    std::string currentDir = std::filesystem::current_path().string();
-    std::string sourcePath = currentDir + "\\src\\assets\\Map\\" + pTilesetRoot->FirstChildElement()->Attribute("source");
+    //std::string currentDir = std::filesystem::current_path().string();
+    std::string sourcePath = /*currentDir +*/ static_cast<std::string>("src/assets/Map/") + pTilesetRoot->FirstChildElement()->Attribute("source");
     std::cout << "Tile source path:" << sourcePath << "\n";
     if (!TheTextureManager::Instance()->load(sourcePath, pTilesetRoot->Attribute("name"),
                                              TheGame::Instance()->getRenderer()))
@@ -194,6 +194,10 @@ void LevelParser::parseTextures(tinyxml2::XMLElement *pTextureRoot)
             {
                 std::cout << "failed to load textures";
             }
+            else
+            {
+                pLevel->getTextureIDList().push_back(e->Attribute("name"));
+            }
         }
     }
 }
@@ -202,7 +206,7 @@ void LevelParser::parseObjectLayer(tinyxml2::XMLElement *pObjectElement)
 {
     using tinyxml2::XMLElement;
 
-    std::vector<std::shared_ptr<Layer>> &pLayers = pLevel->getLayers();
+    std::vector<std::shared_ptr<Layer>>& pLayers = pLevel->getLayers();
 
     std::shared_ptr<ObjectLayer> pObjectLayer = std::make_shared<ObjectLayer>();
 

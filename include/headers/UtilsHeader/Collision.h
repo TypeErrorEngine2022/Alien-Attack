@@ -17,8 +17,8 @@ bool RectRect(SDL_Rect A, SDL_Rect B)
     int aHBuf = A.h / s_buffer;
     int aWBuf = A.w / s_buffer;
 
-    int bHBuf = b.h / s_buffer;
-    int bWBuf = b.w / s_buffer;
+    int bHBuf = B.h / s_buffer;
+    int bWBuf = B.w / s_buffer;
 
     int TopA = A.y;
     int BottomA = A.y + A.h;
