@@ -48,6 +48,8 @@ bool PlayState::onEnter()
     LevelParser levelParser;
     pLevel = levelParser.parseLevel("C:/Users/jacky/Desktop/sdl_game/src/assets/Map/map1.tmx");
 
+    TheGame::Instance()->getSoundManager()->playMusic("playbgm", -1);
+
     return true;
 }
 

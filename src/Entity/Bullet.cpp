@@ -31,7 +31,12 @@ void PlayerBullet::update()
 
 void PlayerBullet::collision()
 {
-    m_bDead = true;
+    m_textureID = "smallexplosion";
+    m_currentFrame = 0;
+    m_numFrames = 2;
+    m_width = 20;
+    m_height = 20;
+    m_bDying = true;
 }
 
 EnemyBullet::EnemyBullet(): PlayerBullet()

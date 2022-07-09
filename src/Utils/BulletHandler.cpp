@@ -4,6 +4,8 @@
 
 #include "../../include/headers/Game.h"
 
+#include <iostream>
+
 std::shared_ptr<BulletHandler> BulletHandler::s_pInstance = nullptr;
 
 std::shared_ptr<BulletHandler> BulletHandler::Instance()
@@ -21,6 +23,10 @@ BulletHandler::BulletHandler()
     TheTextureManager::Instance()->load("src/assets/bullet1.png", "smallbullet", TheGame::Instance()->getRenderer());
     TheTextureManager::Instance()->load("src/assets/bullet2.png", "mediumbullet", TheGame::Instance()->getRenderer());
     TheTextureManager::Instance()->load("src/assets/bullet3.png", "largebullet", TheGame::Instance()->getRenderer());
+
+    m_textureIDList.push_back("smallbullet");
+    m_textureIDList.push_back("mediumbullet");
+    m_textureIDList.push_back("largebullet");
 }
 
 void BulletHandler::addPlayerBullet(int x, int y, int width, int height, std::string textureID,
@@ -29,6 +35,8 @@ void BulletHandler::addPlayerBullet(int x, int y, int width, int height, std::st
     PlayerBullet pPlayerBullet;
     pPlayerBullet.load(std::make_shared<LoaderParams>(x, y, width, height, textureID, numFrames), heading);
     m_playerBullets.push_front(pPlayerBullet);
+
+    std::cout << "added a player bullet\n";
 }
 
 void BulletHandler::addEnemyBullet(int x, int y, int width, int height, std::string textureID,
@@ -37,6 +45,16 @@ void BulletHandler::addEnemyBullet(int x, int y, int width, int height, std::str
     EnemyBullet pEnemyBullet;
     pEnemyBullet.load(std::make_shared<LoaderParams>(x, y, width, height, textureID, numFrames), heading);
     m_enemyBullets.push_front(pEnemyBullet);
+}
+
+const std::forward_list<PlayerBullet> BulletHandler::getPlayerBullets()
+{
+    return m_playerBullets;
+}
+
+const std::forward_list<EnemyBullet> BulletHandler::getEnemyBullets()
+{
+    return m_enemyBullets;
 }
 
 void BulletHandler::draw()
@@ -58,11 +76,12 @@ void BulletHandler::update()
 
     for (auto it = m_playerBullets.begin(); it != m_playerBullets.end(); )
     {
-        //excedd the boader
+        //exceed the border
         if (it->getPosition().getX() < 0 || it->getPosition().getX() > TheGame::Instance() -> getGameWidth() ||
             it->getPosition().getY() < 0 || it->getPosition().getY() > TheGame::Instance() -> getGameHeight()  )
         {
             it = m_playerBullets.erase_after(before);
+            std::cout << "Bullet out of bound\n";
         }
         else
         {
@@ -90,5 +109,12 @@ void BulletHandler::update()
             it++;
         }
     }
+}
 
+void BulletHandler::clean()
+{
+    for (std::size_t i = 0; i < m_textureIDList.size(); i++)
+    {
+        TheTextureManager::Instance() -> clearFromTextureMap(m_textureIDList[i]);
+    }
 }

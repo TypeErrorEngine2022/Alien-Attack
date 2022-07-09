@@ -74,35 +74,7 @@ bool GameOverState::onEnter()
 
     setCallbacks(m_callbacks);
     
-    /*if (!TheTextureManager::Instance() -> load("C:/Users/jacky/Desktop/sdl_game/src/assets/gameover.png",
-                                                "gameovertext", TheGame::Instance() -> getRenderer()))
-    {
-        return false;
-    }
-
-    if (!TheTextureManager::Instance() -> load("C:/Users/jacky/Desktop/sdl_game/src/assets/main.png",
-                                                "mainbutton", TheGame::Instance() -> getRenderer()))
-    {
-        return false;
-    }
-
-    if (!TheTextureManager::Instance() -> load("C:/Users/jacky/Desktop/sdl_game/src/assets/restart.png",
-                                                "restartbutton", TheGame::Instance() -> getRenderer()))
-    {
-        return false;
-    }
-
-    std::unique_ptr<GameObject> gameOverText = std::make_unique<AnimatedGraphic>();
-    gameOverText -> load(std::make_shared<LoaderParams>(200, 100, 190, 30, "gameovertext", 2, 0, 2));
-    std::unique_ptr<GameObject> button1 = std::make_unique<MenuButton>();
-    button1 -> load(std::make_shared<LoaderParams>(200, 200, 200, 80, "mainbutton", 3));
-    std::unique_ptr<GameObject> button2 = std::make_unique<MenuButton>();
-    button2 -> load(std::make_shared<LoaderParams>(200, 300, 200, 80, "restartbutton", 3));
-
-
-    m_gameObjects.push_back(std::move(gameOverText));
-    m_gameObjects.push_back(std::move(button1));
-    m_gameObjects.push_back(std::move(button2));*/
+    TheGame::Instance()->getSoundManager()->playMusic("menubgm", -1);
 
     std::cout << "entering GameOverState\n";
     return true;

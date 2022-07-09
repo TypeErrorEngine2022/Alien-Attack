@@ -23,18 +23,25 @@ void Enemy::draw()
 
 void Enemy::update()
 {
-    m_currentFrame = static_cast<int>((SDL_GetTicks64() / 100) % m_numFrames);
-
-    if (m_position.getY() < 0)
+    if (!m_bDying)
     {
-        m_velocity.setY(2);
-    }
-    else if (m_position.getY() > 400)
-    {
-        m_velocity.setY(-2);
-    }
+        m_currentFrame = static_cast<int>((SDL_GetTicks64() / 100) % m_numFrames);
 
-    ShooterObject::update();
+        if (m_position.getY() < 0)
+        {
+            m_velocity.setY(2);
+        }
+        else if (m_position.getY() > 400)
+        {
+            m_velocity.setY(-2);
+        }
+
+        ShooterObject::update();
+    }
+    else
+    {
+        ShooterObject::doDyingAnimation();
+    }
 }
 
 std::string Enemy::type()
@@ -42,9 +49,24 @@ std::string Enemy::type()
     return "Enemy";
 }
 
+void Enemy::collision()
+{
+    m_textureID = "largeexplosion";
+    m_currentFrame = 0;
+    m_numFrames = 10;
+    m_width = 60;
+    m_height = 60;
+    m_bDying = true;
+}
+
 void Enemy::clean()
 {
-    std::cout << "cleaning Player\n";
+    std::cout << "cleaning Enemy\n";
+}
+
+Vector2D Enemy::getVelocity() const
+{
+    return m_velocity;
 }
 
 std::unique_ptr<GameObject> EnemyCreator::createGameObject() const

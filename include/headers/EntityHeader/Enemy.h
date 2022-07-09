@@ -4,6 +4,7 @@
 #include <string>
 #include "../UtilsHeader/LoaderParams.h"
 #include "../UtilsHeader/BaseCreator.h"
+#include "../UtilsHeader/Vector2D.h"
 #include "ShooterObject.h"
 
 
@@ -19,7 +20,11 @@ public:
     void update() override;
     void clean() override;
 
+    void collision() override;
+
     std::string type() override;
+
+    Vector2D getVelocity() const;
 
 protected:
     int m_health;

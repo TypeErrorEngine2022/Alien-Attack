@@ -39,6 +39,7 @@ bool TextureManager::load(std::string fileName, std::string id,
 
     if (pTempSurface == nullptr)
     {
+        std::cout << "cannot load the image\n";
         return false;
     }
 
@@ -52,6 +53,7 @@ bool TextureManager::load(std::string fileName, std::string id,
         return true;
     }
 
+    std::cout << "cannot load the image\n";
     return false;
 }
 

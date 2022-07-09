@@ -101,8 +101,8 @@ void LevelParser::parseTileLayer(tinyxml2::XMLElement *pTileElement)
     using tinyxml2::XMLNode;
     using tinyxml2::XMLText;
 
-    std::vector<std::shared_ptr<Layer>> &pLayers = pLevel->getLayers();
-    const std::vector<TileSet> &pTilesets = pLevel->getTilesets();
+    std::vector<std::shared_ptr<Layer>>& pLayers = pLevel->getLayers();
+    const std::vector<TileSet>& pTilesets = pLevel->getTilesets();
 
     std::shared_ptr<TileLayer> pTileLayer = std::make_shared<TileLayer>(m_tileSize, pTilesets);
 
@@ -110,15 +110,15 @@ void LevelParser::parseTileLayer(tinyxml2::XMLElement *pTileElement)
     std::vector<std::vector<int>> data;
 
     std::string decodeIDs;
-    XMLElement *pDataNode;
+    XMLElement* pDataNode;
 
     bool collidable = false;
 
-    for (XMLElement *e = pTileElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
+    for (XMLElement* e = pTileElement->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
     {
         if (e->Value() == static_cast<std::string>("properties"))
         {
-            for (XMLElement *property = e->FirstChildElement(); property != nullptr;
+            for (XMLElement* property = e->FirstChildElement(); property != nullptr;
                  property = property->NextSiblingElement())
             {
                 if (property->Value() == static_cast<std::string>("property"))
@@ -181,7 +181,7 @@ void LevelParser::parseTileLayer(tinyxml2::XMLElement *pTileElement)
     std::cout << "complete parsing tileLayer\n";
 }
 
-void LevelParser::parseTextures(tinyxml2::XMLElement *pTextureRoot)
+void LevelParser::parseTextures(tinyxml2::XMLElement* pTextureRoot)
 {
     using tinyxml2::XMLElement;
 

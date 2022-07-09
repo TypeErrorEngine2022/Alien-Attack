@@ -45,7 +45,7 @@ void MainMenuState::render()
 bool MainMenuState::onEnter()
 {
     StateParser stateParser;
-    stateParser.parseState("C:/Users/jacky/Desktop/sdl_game/src/test.xml", s_stateID, m_gameObjects, m_textureIDList);
+    stateParser.parseState("src/test.xml", s_stateID, m_gameObjects, m_textureIDList);
     
     if (m_callbacks.empty())
     {
@@ -57,6 +57,8 @@ bool MainMenuState::onEnter()
     
     setCallbacks(m_callbacks);
     
+    TheGame::Instance()->getSoundManager()->playMusic("menubgm", -1);
+
     std::cout << "entering MainMenuState\n";
     return true;
 }

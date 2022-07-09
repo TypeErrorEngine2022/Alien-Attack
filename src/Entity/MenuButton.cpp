@@ -56,6 +56,7 @@ void MenuButton::update()
         {
             m_currentFrame = CLICKED;
 
+            TheGame::Instance()->getSoundManager()->playSound("phaser", 1);
             m_callback();
 
             m_bReleased = false; //prevent from calling the function infinitely when pressing mouse

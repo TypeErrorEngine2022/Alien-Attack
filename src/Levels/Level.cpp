@@ -3,6 +3,14 @@
 #include "../../include/headers/Map/Layer.h"
 
 #include "../../include/headers/UtilsHeader/TextureManager.h"
+#include "../../include/headers/UtilsHeader/BulletHandler.h"
+
+#include "../../include/headers/Game.h"
+
+Level::Level()
+{
+    
+}
 
 std::vector<TileSet>& Level::getTilesets()
 {
@@ -26,19 +34,23 @@ std::vector<std::string>& Level::getTextureIDList()
 
 void Level::render()
 {
-    for (std::size_t i = 0; i < m_layers.size(); i++)
+    //first render background layer, then gameobject layer or tilelayer
+    for (auto it = m_layers.rbegin(); it != m_layers.rend(); it++)
     {
-        m_layers[i] -> render();
+        (*it)->render();
     }
+    TheBulletHandler::Instance()->draw();
 }
 
 void Level::update()
 {
-    for (std::size_t i = 0; i < m_layers.size(); i++)
+    for (auto it = m_layers.rbegin(); it != m_layers.rend(); it++)
     {
         std::shared_ptr<Level> pLevel = shared_from_this();
-        m_layers[i] -> update(pLevel);
+        (*it)->update(pLevel);
     }
+
+    TheBulletHandler::Instance()->update();
 }
 
 void Level::clean()

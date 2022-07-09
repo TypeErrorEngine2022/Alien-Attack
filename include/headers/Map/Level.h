@@ -24,15 +24,17 @@ public:
     std::shared_ptr<Player> getPlayer();
     void setPlayer(std::shared_ptr<Player> player);
 
+    std::vector<std::shared_ptr<TileLayer>>& getCollidableLayers();
+
 private:
-    Level(){};
+    Level();
+
     std::vector<TileSet> m_tilesets;
     std::vector<std::shared_ptr<Layer>> m_layers;
     std::vector<std::shared_ptr<TileLayer>> m_collisionLayers;
 
     std::vector<TileSet>& getTilesets();
     std::vector<std::shared_ptr<Layer>>& getLayers();
-    std::vector<std::shared_ptr<TileLayer>>& getCollidableLayers();
 
     std::shared_ptr<Player> m_player;
     std::vector<std::string> m_textureIDList;

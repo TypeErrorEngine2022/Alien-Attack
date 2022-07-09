@@ -4,6 +4,7 @@
 #include <memory>
 #include "./GamestateHeader/GameState.h"
 #include "./UtilsHeader/StateMachine.tpp"
+#include "./UtilsHeader/SoundManager.h"
 
 
 class Game
@@ -33,6 +34,8 @@ public:
 
     int getPlayerLives() const;
     void setPlayerLives(int lives);
+
+    std::shared_ptr<SoundManager> getSoundManager() const;
     
 private:
     Game(){}
@@ -56,6 +59,7 @@ private:
     bool m_bLevelComplete;
 
     std::shared_ptr<StateMachine<GameState>> m_pGameStateMachine;
+    std::shared_ptr<SoundManager> m_pSoundManager;
 };
 
 typedef Game TheGame;

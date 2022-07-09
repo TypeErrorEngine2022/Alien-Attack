@@ -2,8 +2,8 @@
 <States>
     <MENU>
         <TEXTURES>
-            <texture filename="C:\Users\jacky\Desktop\sdl_game\src\assets\button.png" ID="playbutton"/>
-            <texture filename="C:\Users\jacky\Desktop\sdl_game\src\assets\exit.png" ID="exitbutton"/>
+            <texture filename="src\assets\button.png" ID="playbutton"/>
+            <texture filename="src\assets\exit.png" ID="exitbutton"/>
         </TEXTURES>
         
         <OBJECTS>
@@ -14,8 +14,8 @@
     
     <PLAY>
         <TEXTURES>
-            <texture filename="C:\Users\jacky\Desktop\sdl_game\src\assets\helicopter.png" ID="helicopter"/>
-            <texture filename="C:\Users\jacky\Desktop\sdl_game\src\assets\helicopter2.png" ID="helicopter2"/>
+            <texture filename="src\assets\helicopter.png" ID="helicopter"/>
+            <texture filename="src\assets\helicopter2.png" ID="helicopter2"/>
         </TEXTURES>
         
         <OBJECTS>
@@ -26,8 +26,8 @@
     
     <PAUSE>
         <TEXTURES>
-            <texture filename="C:\Users\jacky\Desktop\sdl_game\src\assets\resume.png" ID="resumebutton"/>
-            <texture filename="C:\Users\jacky\Desktop\sdl_game\src\assets\main.png" ID="mainbutton"/>
+            <texture filename="src\assets\resume.png" ID="resumebutton"/>
+            <texture filename="src\assets\main.png" ID="mainbutton"/>
         </TEXTURES>
         
         <OBJECTS>
@@ -39,9 +39,9 @@
     
     <GAMEOVER>
         <TEXTURES>
-            <texture filename="C:\Users\jacky\Desktop\sdl_game\src\assets\gameover.png" ID="gameovertext"/>
-            <texture filename="C:\Users\jacky\Desktop\sdl_game\src\assets\main.png" ID="mainbutton"/>
-            <texture filename="C:\Users\jacky\Desktop\sdl_game\src\assets\restart.png" ID="restartbutton"/>
+            <texture filename="src\assets\gameover.png" ID="gameovertext"/>
+            <texture filename="src\assets\main.png" ID="mainbutton"/>
+            <texture filename="src\assets\restart.png" ID="restartbutton"/>
         </TEXTURES>
         
         <OBJECTS>

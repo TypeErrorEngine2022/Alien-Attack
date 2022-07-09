@@ -8,7 +8,7 @@
  * @param B - SDL_Rect for B
  * @return true if collided
  */
-bool RectRect(SDL_Rect A, SDL_Rect B)
+bool RectRect(SDL_Rect& A, SDL_Rect& B)
 {
     //To make the rectangles slightly smaller
     //More direct hits are needed before they will be registered as a collision

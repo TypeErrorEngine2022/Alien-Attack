@@ -3,6 +3,9 @@
 
 #include "../../include/headers/UtilsHeader/LoaderParams.h"
 #include "../../include/headers/UtilsHeader/InputHandler.h"
+#include "../../include/headers/UtilsHeader/BulletHandler.h"
+
+#include "../../include/headers/GamestateHeader/GameOverState.h"
 
 #include "../../include/headers/Game.h"
 
@@ -12,7 +15,7 @@
 #include <SDL2/SDL.h>
 
 Player::Player() : ShooterObject(),
-    m_invulnerable(false), m_invulnerableTime(1000), m_invulnerableCounter(0)
+    m_invulnerable(false), m_invulnerableTime(60), m_invulnerableCounter(0)
 {
     
 }
@@ -20,6 +23,13 @@ Player::Player() : ShooterObject(),
 void Player::load(const std::shared_ptr<LoaderParams> pParams)
 {
     ShooterObject::load(pParams);
+
+    m_moveSpeed = 3;
+
+    m_bulletFiringSpeed = 13;
+
+    //able to shoot when game starts
+    m_bulletCounter = m_bulletFiringSpeed;
 }
 
 void Player::draw()
@@ -57,6 +67,8 @@ void Player::update()
             ShooterObject::update();
 
             handleAnimation();
+    
+            m_bulletCounter++;
         }
         else //if the player is doing the death animation
         {
@@ -81,23 +93,69 @@ void Player::clean()
 
 void Player::handleInput()
 {
-    std::shared_ptr<Vector2D> target = TheInputHandler::Instance() -> getMousePosition();
+    if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_UP) && m_position.getY() > 0)
+    {
+        m_velocity.setY(-m_moveSpeed);
+    }
 
-    m_velocity = *target - m_position;
-    m_velocity /= 50; //slow down the moving speed, prevent obj from sticking into destination
+    if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_DOWN) && (m_position.getY() + m_height) < TheGame::Instance()->getGameHeight())
+    {
+        m_velocity.setY(m_moveSpeed);
+    }
+
+    if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RIGHT) && (m_position.getX() + m_width) < TheGame::Instance()->getGameWidth())
+    {
+        m_velocity.setX(m_moveSpeed);
+    }
+
+    if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_LEFT) && m_position.getX() > 0)
+    {
+        m_velocity.setX(-m_moveSpeed);
+    }
+
+    if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_SPACE) && m_bulletCounter >= m_bulletFiringSpeed)
+    {
+        int bulletX = m_position.getX() + 90;
+        int bulletY = m_position.getY() + 12;
+
+        TheBulletHandler::Instance()->addPlayerBullet(bulletX, bulletY, 11, 11, "smallbullet", 1, 
+                                                        Vector2D(5, 0));
+        TheGame::Instance()->getSoundManager()->playSound("foom", 1);
+
+        m_bulletCounter = 0;
+    }
+}
+
+void Player::collision()
+{
+    // if the player is not invulnerable then set to dying and change values for death animation tile sheet
+    if(!m_invulnerable && !TheGame::Instance()->getLevelComplete())
+    {
+        m_textureID = "largeexplosion";
+        m_currentFrame = 0;
+        m_numFrames = 10;
+        m_width = 60;
+        m_height = 60;
+        m_bDying = true;
+    }
 }
 
 void Player::resurrect()
 {
+    if (TheGame::Instance()->getPlayerLives() - 1 <= 0)
+    {
+        TheGame::Instance()->getGameStateMachine()->changeState(GameOverState::Instance());
+        return;
+    }
     TheGame::Instance() -> setPlayerLives(TheGame::Instance() -> getPlayerLives() - 1);
 
     m_position.setX(10);
     m_position.setY(200);
     m_bDying = false;
 
-    m_textureID = "player";
+    m_textureID = "helicopter";
 
-    m_currentFrame = 1;
+    m_currentFrame = 0;
     m_numFrames = 5;
     m_width = 128;
     m_height = 55;
@@ -155,6 +213,10 @@ void Player::handleAnimation()
     m_currentFrame = static_cast<int>((SDL_GetTicks64() / 100) % m_numFrames);
 }
 
+Vector2D Player::getVelocity() const
+{
+    return m_velocity;
+}
 
 std::unique_ptr<GameObject> PlayerCreator::createGameObject() const
 {

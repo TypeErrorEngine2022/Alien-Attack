@@ -2,6 +2,7 @@
 #include "ShooterObject.h"
 #include "../UtilsHeader/LoaderParams.h"
 #include "../UtilsHeader/BaseCreator.h"
+#include "../UtilsHeader/Vector2D.h"
 #include <string>
 #include <memory>
 
@@ -10,11 +11,15 @@ class Player: public ShooterObject
 public:
     Player();
 
+    void load(const std::shared_ptr<LoaderParams> pParams);
+
     void draw() override;
     void update() override;
     void clean() override;
 
-    void load(const std::shared_ptr<LoaderParams> pParams);
+    void collision() override;
+
+    Vector2D getVelocity() const;
 
 private:
     void handleInput();

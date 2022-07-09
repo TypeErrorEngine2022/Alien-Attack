@@ -1,9 +1,10 @@
 #pragma once
 #include <memory>
 #include <string>
+#include <vector>
 #include <forward_list>
 
-#include "../UtilsHeader/Vector2D.h"
+#include "./Vector2D.h"
 #include "../EntityHeader/Bullet.h"
 
 enum bullet_type
@@ -25,9 +26,14 @@ public:
     void addEnemyBullet(int x, int y, int width, int height, std::string textureID,
                             int numFrames, Vector2D heading);
 
+    const std::forward_list<PlayerBullet> getPlayerBullets();
+    const std::forward_list<EnemyBullet> getEnemyBullets();
+
     void draw();
 
     void update();
+
+    void clean();
 
 private:
     BulletHandler();
@@ -36,6 +42,8 @@ private:
 
     std::forward_list<PlayerBullet> m_playerBullets;
     std::forward_list<EnemyBullet> m_enemyBullets;
+
+    std::vector<std::string> m_textureIDList;
 };
 
 typedef BulletHandler TheBulletHandler;

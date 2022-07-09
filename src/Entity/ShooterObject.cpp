@@ -24,7 +24,7 @@ void ShooterObject::load(const std::shared_ptr<LoaderParams> pParams)
     m_textureID = pParams -> getTextureID();
     m_numFrames = pParams -> getNumFrames();
     m_currentRow = 1;
-    m_currentFrame = 1;
+    m_currentFrame = 0;
     m_numFrames = pParams -> getNumFrames();
     m_callbackID = pParams -> getCallbackID();
     m_animSpeed = pParams -> getAnimSpeed();
@@ -34,23 +34,15 @@ void ShooterObject::load(const std::shared_ptr<LoaderParams> pParams)
     m_bDead = false;
     m_bDying = false;
     m_dyingCounter = 0;
-    m_dyingTime = 1000;
+    m_dyingTime = 20;
     m_bPlayedDeathSound = false;
 }
 
 void ShooterObject::draw()
 {
-    if (m_velocity.getX() > 0) // rightwards is the opposite side of helicopter
-    {
-        TextureManager::Instance() -> drawFrame(m_textureID, static_cast<int>(m_position.getX()), static_cast<int>(m_position.getY()), 
-                                                m_width, m_height, m_currentRow, m_currentFrame, 
-                                                TheGame::Instance() -> getRenderer(), m_angle, m_alpha, SDL_FLIP_HORIZONTAL);
-    }
-    else
-    {
-        TextureManager::Instance() -> drawFrame(m_textureID, static_cast<int>(m_position.getX()), static_cast<int>(m_position.getY()), 
-                                            m_width, m_height, m_currentRow, m_currentFrame, TheGame::Instance() -> getRenderer(), m_angle, m_alpha);
-    }
+    TextureManager::Instance() -> drawFrame(m_textureID, static_cast<int>(m_position.getX()), static_cast<int>(m_position.getY()), 
+                                            m_width, m_height, m_currentRow, m_currentFrame, 
+                                            TheGame::Instance() -> getRenderer(), m_angle, m_alpha, SDL_FLIP_HORIZONTAL);
 }
 
 void ShooterObject::update()

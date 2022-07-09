@@ -7,6 +7,8 @@
 
 #include "../UtilsHeader/Vector2D.h"
 
+#include "../EntityHeader/Player.h"
+
 class TileLayer: public Layer
 {
 public:
@@ -23,9 +25,17 @@ public:
     //given id, find its corresponding tileset
     TileSet getTilesetByID(int tileID);
 
+    Vector2D getPosition() const;
+
+    int getTileSize() const;
+    int getNumTileRows() const;
+    int getNumTileColumns() const;
+
 private:
-    int m_numColumns;
-    int m_numRows;
+    int m_numScreenRows;
+    int m_numScreenColumns;
+    int m_numTileRows;
+    int m_numTileColumns;
     std::size_t m_tileSize;
 
     Vector2D m_position;
@@ -36,4 +46,9 @@ private:
 
     //each tile has a ID
     std::vector<std::vector<int>> m_tileIDs;
+
+    std::vector<std::vector<int>>& getTileIDs();
+    
+    friend void checkPlayerTileCollision(std::shared_ptr<Player> pPlayer,
+                                         const std::vector<std::shared_ptr<TileLayer>>& collisionLayers);
 };

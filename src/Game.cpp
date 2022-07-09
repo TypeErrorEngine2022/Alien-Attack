@@ -1,17 +1,19 @@
-#include "..\include\headers\Game.h"
-#include "..\include\headers\UtilsHeader\TextureManager.h"
+#include "../include/headers/Game.h"
+#include "../include/headers/UtilsHeader/TextureManager.h"
 #include "../include/headers/UtilsHeader/Vector2D.h"
 #include "../include/headers/UtilsHeader/InputHandler.h"
 #include "../include/headers/UtilsHeader/StateMachine.h"
+#include "../include/headers/UtilsHeader/GameObjectFactory.h"
+#include "../include/headers/UtilsHeader/BulletHandler.h"
 
 #include "../include/headers/GamestateHeader/MainMenuState.h"
 #include "../include/headers/GamestateHeader/PlayState.h"
 
-#include "../include/headers/UtilsHeader/GameObjectFactory.h"
 #include "../include/headers/EntityHeader/Player.h"
 #include "../include/headers/EntityHeader/Enemy.h"
 #include "../include/headers/EntityHeader/MenuButton.h"
 #include "../include/headers/EntityHeader/AnimatedGraphic.h"
+#include "../include/headers/EntityHeader/ScrollingBackground.h"
 
 #include <iostream>
 #include <memory>
@@ -53,6 +55,11 @@ std::size_t Game::getGameHeight() const
 int Game::getScrollSpeed() const
 {
     return m_scrollSpeed;
+}
+
+std::shared_ptr<SoundManager> Game::getSoundManager() const
+{
+    return m_pSoundManager;
 }
 
 bool Game::init (const char* title, int xpos, int ypos,
@@ -103,10 +110,17 @@ bool Game::init (const char* title, int xpos, int ypos,
     m_pGameStateMachine = StateMachine<GameState>::Instance();
     m_pGameStateMachine -> changeState(MainMenuState::Instance());
 
+    m_pSoundManager = TheSoundManager::Instance();
+    m_pSoundManager->load("src/assets/MenuBGM.ogg", "menubgm", SOUND_MUSIC);
+    m_pSoundManager->load("src/assets/PlayBGM.ogg", "playbgm", SOUND_MUSIC);
+    m_pSoundManager->load("src/assets/phaser.wav", "phaser", SOUND_SFX);
+    m_pSoundManager->load("src/assets/foom.wav", "foom", SOUND_SFX);
+
     TheGameObjectFactory::Instance() -> registerType("MenuButton", std::make_shared<MenuButtonCreator>());
     TheGameObjectFactory::Instance() -> registerType("Player", std::make_shared<PlayerCreator>());
     TheGameObjectFactory::Instance() -> registerType("Enemy", std::make_shared<EnemyCreator>());
     TheGameObjectFactory::Instance() -> registerType("AnimatedGraphic", std::make_shared<AnimatedGraphicCreator>());
+    TheGameObjectFactory::Instance() -> registerType("ScrollingBackground", std::make_shared<ScrollingBackgroundCreator>());
 
     return true;
 }
@@ -165,6 +179,8 @@ void Game::clean()
     SDL_DestroyRenderer(m_pRenderer);
 
     m_pGameStateMachine -> clean();
+
+    TheBulletHandler::Instance()->clean();
 
     TheTextureManager::Instance() -> clean();
     

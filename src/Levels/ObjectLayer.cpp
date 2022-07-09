@@ -22,6 +22,8 @@ std::vector<std::shared_ptr<GameObject>>& ObjectLayer::getGameObject()
 void ObjectLayer::update(std::shared_ptr<Level> pLevel)
 {
     checkPlayerEnemyCollision(pLevel->getPlayer(), m_gameObjects);
+    checkPlayerTileCollision(pLevel->getPlayer(), pLevel->getCollidableLayers());
+    checkEnemyPlayerBulletCollision(m_gameObjects);
 
     for (auto it = m_gameObjects.begin(); it != m_gameObjects.end();  )
     {
@@ -46,11 +48,11 @@ void ObjectLayer::update(std::shared_ptr<Level> pLevel)
             }
        }
 
-       // check if dead or off screen
+        // check if dead or off screen
         if((*it)->getPosition().getX() < (0 - (*it)->getWidth()) || (*it)->getPosition().getY() > (TheGame::Instance()->getGameHeight()) || ((*it)->dead()))
         {
-            it = m_gameObjects.erase(it); // erase from vector and get new iterator
             std::cout << "Deleted Gameobject: Out of Screen/Dead\n";
+            it = m_gameObjects.erase(it); // erase from vector and get new iterator
         }
         else
         {
